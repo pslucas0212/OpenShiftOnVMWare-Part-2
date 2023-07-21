@@ -1,5 +1,7 @@
 # Installing OpenShift on vMWare and Deploying a Sample Application - Part 2
 
+[Installing OpenShift on vMWare and Deploying a Sample Application - Part 1](https://github.com/pslucas0212/OpenShiftOnVMWare-Part-1)  
+[Installing OpenShift on vMWare and Deploying a Sample Application - Part 3](https://github.com/pslucas0212/OpenShiftOnVMWare-Part-3)
 
 By Paul Lucas
 
