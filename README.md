@@ -16,10 +16,10 @@ In part two of the tutorial we will create two users via the OCP command line.  
 ## Adding Users to the OCP Cluster
 
 ### Let's set up a couple of users
-- We don't recommend using kubeadmin on a day-to-day basis for administering your OpenShift cluster, we will create two users in this tutorial to start to familiarize you with the process for creating users and groups.  For ease of the tutorial, we will use htpasswd to set up some basic authentication for our OpenShift cluster.  First we will create a temporary htpasswd authentication file and add two users to it. 
+- We don't recommend using kubeadmin on a day-to-day basis for administering your OpenShift cluster, we will create two users in this tutorial to start to familiarize you with the process for creating users and groups.  For ease of the tutorial, we will use htpasswd to set up some basic authentication for our OpenShift cluster.  First we will create a temporary htpasswd authentication file and add two users to it. Note: the -c with the httpasswd command creates or overwrites the .httpasswd file.  
 ```
 $ touch /tmp/cluster-ids
-$ htpasswd -B -b /tmp/cluster-ids admin xxxxxxxx
+$ htpasswd -c -B -b /tmp/cluster-ids admin xxxxxxxx
 Adding password for user admin
 $ htpasswd -B -b /tmp/cluster-ids developer xxxxxxxx
 Adding password for user developer
