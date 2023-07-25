@@ -78,7 +78,20 @@ You have access to 67 projects, the list has been suppressed. You can list all p
 
 Using project "default".
 ```
-- Let's use the oc get nodes command to verify that the admin user we creates has been correctly assigned to the cluster-admin role
+- Let's use the oc get nodes command to verify that the admin user we creates has been correctly assigned to the cluster-admin role.
+```
+$ oc get nodes
+```
+- List users  
+```
+$ oc get users
+```
+
+- List the current identities of the users that we just created
+```
+$ oc get identity
+```  
+
 - Let's create a group for the developers and add the developer user to the developers group.
 
 ```
