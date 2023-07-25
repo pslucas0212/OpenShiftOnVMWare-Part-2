@@ -43,16 +43,16 @@ clusterrole.rbac.authorization.k8s.io/cluster-admin added: "admin"
 ```
 oc get oauth cluster -o yaml > /tmp/oauth.yaml
 ```
--  Update the spec section of the OAuth.yaml file.  After updating the file we will update our OpenShift cluster with the new yaml file.
+-  Update the spec section of the OAuth.yaml file.  After updating the file we will update our OpenShift cluster with the new yaml file.  Note that he name for the httpasswd entry is the derived from the name of the secret we create above.  
 ```
 spec: 
   identityProviders:
-  - name: cluster-users
-    mappingMethod: claim
-    type: HTPasswd
-    htpasswd:
+  - htpasswd:
       fileData:
         name: cluster-users
+    mappingMethod: claim
+    name: myusers
+    type: HTPasswd
 ```
 ```
 $ oc replace -f /tmp/oauth.yaml 
