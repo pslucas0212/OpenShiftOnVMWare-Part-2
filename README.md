@@ -103,6 +103,8 @@ admin   87f7df8c-4b75-45e7-9c00-df9539805eb3               htpasswd_provider:adm
 - List the current identities of the users that we just created
 ```
 $ oc get identity
+NAME                      IDP NAME            IDP USER NAME   USER NAME   USER UID
+htpasswd_provider:admin   htpasswd_provider   admin           admin       87f7df8c-4b75-45e7-9c00-df9539805eb3
 ```  
 
 - Let's create a group for the developers and add the developer user to the developers group.
