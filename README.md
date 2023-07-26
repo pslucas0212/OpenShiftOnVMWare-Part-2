@@ -70,9 +70,7 @@ $ oc adm policy add-cluster-role-to-user cluster-admin admin
 Warning: User 'admin' not found
 clusterrole.rbac.authorization.k8s.io/cluster-admin added: "admin"
 
-```
-
-```
+```  
 - We can now login to our OpenShift cluster as the admin role to create a group and assign group cluster roles for the developer user.
 ```
 $ oc login -u admin -p xxxxxxxx
