@@ -34,6 +34,37 @@ $ oc create secret generic cluster-users --from-file htpasswd=/tmp/cluster-ids -
 secret/cluster-users created
 ```
 
+
+- We will now update the OAuth resource on our cluster and add the HTPasswd identity provider definition to the cluster's identity provider list.  Export the OpenShift cluster OAuth resource to a yaml file.
+```
+oc get oauth cluster -o yaml > /tmp/oauth.yaml
+```
+-  Replace the OAuth.yaml file contents with the follwing.  After updating the file we will update our OpenShift cluster with the new yaml file.  Note that he name for the httpasswd entry is the derived from the name of the secret we create above.  
+```
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec: 
+  identityProviders:
+  - name: htpasswd_provider
+    mappingMethod: claim
+    type: HTPasswd
+    htpasswd:
+      fileData:
+        name: cluster-users
+```
+```
+$ oc replace -f /tmp/oauth.yaml 
+oauth.config.openshift.io/cluster replaced
+```
+-  We will now need to wait until the oauth-openshift pods in the openshift-authetication space are restarted.
+```
+$ oc get pods -n openshift-authentication
+NAME                               READY   STATUS    RESTARTS   AGE
+oauth-openshift-64756f8997-h6ts8   1/1     Running   0          2m2s
+oauth-openshift-64756f8997-hs6cl   1/1     Running   0          94s
+oauth-openshift-64756f8997-z4mxz   1/1     Running   0          2m30s
 - We will assign the cluster admin role to the admin user.  You can ignore the error as the admin doesn't exit until you log in the first time as the admin.
 ```
 $ oc adm policy add-cluster-role-to-user cluster-admin admin
@@ -42,33 +73,6 @@ clusterrole.rbac.authorization.k8s.io/cluster-admin added: "admin"
 
 ```
 
-- We will now update the OAuth resource on our cluster and add the HTPasswd identity provider definition to the cluster's identity provider list.  Export the OpenShift cluster OAuth resource to a yaml file.
-```
-oc get oauth cluster -o yaml > /tmp/oauth.yaml
-```
--  Update the spec section of the OAuth.yaml file.  After updating the file we will update our OpenShift cluster with the new yaml file.  Note that he name for the httpasswd entry is the derived from the name of the secret we create above.  
-```
-spec: 
-  identityProviders:
-  - htpasswd:
-      fileData:
-        name: cluster-users
-    mappingMethod: claim
-    name: myusers
-    type: HTPasswd
-```
-```
-$ oc replace -f /tmp/oauth.yaml 
-oauth.config.openshift.io/cluster replaced
-```
-
--  We will now need to wait until the oauth-openshift pods in the openshift-authetication space are restarted.
-```
-$ oc get pods -n openshift-authentication
-NAME                               READY   STATUS    RESTARTS   AGE
-oauth-openshift-64756f8997-h6ts8   1/1     Running   0          2m2s
-oauth-openshift-64756f8997-hs6cl   1/1     Running   0          94s
-oauth-openshift-64756f8997-z4mxz   1/1     Running   0          2m30s
 ```
 - We can now login to our OpenShift cluster as the admin role to create a group and assign group cluster roles for the developer user.
 ```
