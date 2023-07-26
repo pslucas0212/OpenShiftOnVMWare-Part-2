@@ -33,8 +33,6 @@ Adding password for user developer
 $ oc create secret generic cluster-users --from-file htpasswd=/tmp/cluster-ids -n openshift-config
 secret/cluster-users created
 ```
-
-
 - We will now update the OAuth resource on our cluster and add the HTPasswd identity provider definition to the cluster's identity provider list.  Export the OpenShift cluster OAuth resource to a yaml file.
 ```
 oc get oauth cluster -o yaml > /tmp/oauth.yaml
@@ -58,13 +56,14 @@ spec:
 $ oc replace -f /tmp/oauth.yaml 
 oauth.config.openshift.io/cluster replaced
 ```
--  We will now need to wait until the oauth-openshift pods in the openshift-authetication space are restarted.
+-  We will now need to wait until the oauth-openshift pods in the openshift-authetication space are restarted.  If the oauth-pods have not restarted then the OAuth resource on our cluster was not correctly updated.
 ```
 $ oc get pods -n openshift-authentication
 NAME                               READY   STATUS    RESTARTS   AGE
 oauth-openshift-64756f8997-h6ts8   1/1     Running   0          2m2s
 oauth-openshift-64756f8997-hs6cl   1/1     Running   0          94s
 oauth-openshift-64756f8997-z4mxz   1/1     Running   0          2m30s
+```  
 - We will assign the cluster admin role to the admin user.  You can ignore the error as the admin doesn't exit until you log in the first time as the admin.
 ```
 $ oc adm policy add-cluster-role-to-user cluster-admin admin
